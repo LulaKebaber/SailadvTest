@@ -60,3 +60,12 @@ Test project for Sailadv Junior Python Developer position
 | 8  | `/api/variable/{variable_id:str}` | DELETE | Delete an existing variable         |
 | 9  | `/api/list`                       | GET    | Systems and variables tables return |
 | 10 | `/api/logs`                       | GET    | Retrieve logs of accessed endpoints |
+
+
+## Testing
+
+1. Run tests:
+
+   ```bash
+   pytest
+   ```
