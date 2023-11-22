@@ -2,7 +2,7 @@ from fastapi import Depends, HTTPException, status
 
 from ..services.db_service import Service, get_service
 from . import router
-from ..schemas import system_schemas
+from ..schemas import system_schemas, log_schemas
 
 
 @router.get("/system", response_model=system_schemas.SystemListResponse, status_code=status.HTTP_200_OK)
@@ -50,3 +50,13 @@ def update_system(
     if not updated_system:
         raise HTTPException(status_code=404, detail="System not found")
     return updated_system
+
+
+@router.get("/system/logs", response_model=log_schemas.SystemLogsResponse, status_code=status.HTTP_200_OK)
+def get_system_logs(
+        svc: Service = Depends(get_service),
+):
+    logs = svc.log_repository.get_system_logs()
+    if not logs:
+        raise HTTPException(status_code=404, detail="No logs found")
+    return {"logs": logs}

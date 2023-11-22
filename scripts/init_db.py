@@ -4,8 +4,10 @@ import sys
 import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from app.api.models import system, variable
+from app.api.models import system, variable, log
 from app.database import Base
+from datetime import datetime, timezone
+
 
 DATABASE_URL = "sqlite:///./data/test.db"
 
@@ -39,6 +41,7 @@ variables = [
     {'id': 13, 'system_id': 5, 'name': 'current temperature', 'type': 'float'},
 ]
 
+
 for system_info in systems:
     system_data = system.System(**system_info)
     db.add(system_data)
@@ -46,6 +49,7 @@ for system_info in systems:
 for variable_info in variables:
     variable_data = variable.Variable(**variable_info)
     db.add(variable_data)
+
 
 db.commit()
 db.close()

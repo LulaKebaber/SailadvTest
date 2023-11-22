@@ -3,6 +3,8 @@ from sqlalchemy.orm import relationship
 from ...database import Base
 from .variable import Variable
 
+from sqlalchemy.ext.declarative import declarative_base
+
 class System(Base):
     __tablename__ = "system"
 
