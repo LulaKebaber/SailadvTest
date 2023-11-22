@@ -3,6 +3,7 @@ from fastapi import Depends, HTTPException, status
 from ..services.db_service import Service, get_service
 from . import router
 from ..schemas import variable_schemas
+from ..utils.validation import ValidationError
 
 
 @router.get("/variable", response_model=variable_schemas.VariableListResponse, status_code=status.HTTP_200_OK)
@@ -10,8 +11,7 @@ def get_variables(
         svc: Service = Depends(get_service)
 ):
     variables = svc.variable_repository.get_all_variables()
-    if not variables:
-        raise HTTPException(status_code=404, detail="No variables found")
+    ValidationError.entity_validation(variables, "No variables found")
 
     return {"variables": variables}
 
@@ -21,8 +21,7 @@ def add_new_variable(
         data: variable_schemas.VariableCreateRequest,
         svc: Service = Depends(get_service),
 ):
-    if not data.system_id or not data.name or not data.type:
-        raise HTTPException(status_code=404, detail="Bad request")
+    ValidationError.check_input_data(data.system_id, data.name, data.type)
     if not svc.system_repository.get_system_by_id(data.system_id):
         raise HTTPException(status_code=404, detail="System not found")
 
@@ -31,8 +30,7 @@ def add_new_variable(
         name=data.name,
         type=data.type,
     )
-    if not new_variable:
-        raise HTTPException(status_code=404, detail="Bad request")
+    ValidationError.entity_validation(new_variable, "Variable not created")
 
     return new_variable
 
@@ -46,6 +44,7 @@ def delete_variable(
         raise HTTPException(status_code=404, detail="Variable not found")
 
     variable_deleted = svc.variable_repository.delete_variable_by_id(variable_id=variable_id)
+    ValidationError.entity_validation(variable_deleted, "Variable not deleted")
 
     return variable_deleted
 
@@ -57,8 +56,7 @@ def update_variable(
         data: variable_schemas.VariableUpdateRequest,
         svc: Service = Depends(get_service),
 ):
-    if not data.name or not data.type or not data.system_id:
-        raise HTTPException(status_code=404, detail="Bad request")
+    ValidationError.check_input_data(data.name, data.type, data.system_id)
     if not svc.variable_repository.get_variable_by_id(variable_id):
         raise HTTPException(status_code=404, detail="Variable not found")
 

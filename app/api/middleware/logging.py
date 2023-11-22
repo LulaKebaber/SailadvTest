@@ -1,4 +1,3 @@
-import time
 from fastapi import Request, Depends
 from app.api.services.db_service import Service, get_service
 from app.api.services.db_service import get_session, SessionDB

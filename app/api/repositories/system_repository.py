@@ -11,7 +11,7 @@ class SystemRepository:
         systems = self.database.query(System).all()
         if not systems:
             return []
-
+        # return systems
         return [{'name': system.name, 'id': str(system.id)} for system in systems]
 
     def get_system_by_id(self, system_id: str) -> Optional[dict[str, str]]:
@@ -51,6 +51,9 @@ class SystemRepository:
         systems = self.database.query(System).all()
         variables = self.database.query(Variable).all()
         systems_with_variables = []
+        if not systems:
+            return []
+
         for system in systems:
             systems_with_variables.append({
                 'id': str(system.id),

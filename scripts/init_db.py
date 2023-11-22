@@ -2,6 +2,7 @@ import sys
 import os
 import requests
 
+from app.api.services.db_service import SessionDB
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -29,6 +30,7 @@ variables_data = [
     {'system_id': 5, 'name': 'ac status', 'type': 'boolean'},
     {'system_id': 5, 'name': 'current temperature', 'type': 'float'},
 ]
+
 
 for system_data in systems_data:
     response = requests.post("http://0.0.0.0:8000/api/system", json=system_data)
