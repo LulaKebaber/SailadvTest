@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from typing import Optional, List, Any
-from ..models.system import System
+from ..models.system import System, Variable
 
 
 class SystemRepository:
@@ -46,3 +46,24 @@ class SystemRepository:
         self.database.commit()
 
         return {"id": str(system_id), "name": system_name}
+
+    def get_systems_with_variables(self) -> List[Any]:
+        systems = self.database.query(System).all()
+        variables = self.database.query(Variable).all()
+        systems_with_variables = []
+        for system in systems:
+            systems_with_variables.append({
+                'id': str(system.id),
+                'system': f'system {system.id}',
+                'variables': [
+                    {
+                        'id': str(variable.id),
+                        'system_id': str(variable.system_id),
+                        'name': variable.name,
+                        'type': variable.type,
+                    } for variable in variables if variable.system_id == system.id
+                ]
+            })
+
+        return systems_with_variables
+
