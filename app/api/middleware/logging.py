@@ -1,6 +1,5 @@
-from fastapi import Request, Depends
-from app.api.services.db_service import Service, get_service
-from app.api.services.db_service import get_session, SessionDB
+from fastapi import Request
+from app.api.services.db_service import SessionDB
 from app.api.repositories.log_repository import LogRepository
 
 

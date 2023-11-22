@@ -9,7 +9,6 @@ from app.api.models.log import Log
 from app.api.models.variable import Variable
 from app.api.models.system import System
 
-# from app.api.models.variable import Variable
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
