@@ -14,6 +14,13 @@ class SystemRepository:
 
         return [{'name': system.name, 'id': str(system.id)} for system in systems]
 
+    def get_system_by_id(self, system_id: str) -> Optional[dict[str, str]]:
+        system = self.database.query(System).filter(System.id == system_id).first()
+        if not system:
+            return {}
+
+        return {'id': str(system.id), 'name': system.name}
+
     def add_new_system(self, system_name: str) -> Optional[dict[str, str]]:
         system = System(name=system_name)
         self.database.add(system)
