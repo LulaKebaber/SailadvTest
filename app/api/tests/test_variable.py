@@ -9,10 +9,10 @@ class TestVariableEndpoints(unittest.TestCase):
         self.new_system = self.client.post("/api/system", json={"name": "new_system"})
         self.new_system_id = self.new_system.json()["id"]
         self.new_variable = self.client.post("/api/variable", json={
-              "system_id": self.new_system_id,
-              "name": "new_variable",
-              "type": "string"
-              })
+            "system_id": self.new_system_id,
+            "name": "new_variable",
+            "type": "string"
+        })
         self.new_variable_id = self.new_variable.json()["id"]
 
     def test_add_new_variable(self):
