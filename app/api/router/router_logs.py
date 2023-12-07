@@ -6,7 +6,7 @@ from . import router
 from ..utils.validation import ValidationError
 
 
-@router.get("/system/logs", response_model=log_schemas.SystemLogsResponse, status_code=status.HTTP_200_OK)
+@router.get("/logs", response_model=log_schemas.SystemLogsResponse, status_code=status.HTTP_200_OK)
 def get_system_logs(
         svc: Service = Depends(get_service),
 ):
